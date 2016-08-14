@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+    <head>
+        <title>
+            Disposal - Secure Delivery
+        </title>
+        <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+        
+       <!-- <script src="./js/jquery-3.1.0.min.js"></script>-->
+       <script src="./js/jquery.js"></script>
+        <script src="./js/jquery-ui.min.js"></script>
+        
+        <script src="./js/bootstrap.min.js"></script>
+        
+        <script>
+            function post()
+            {
+                var message = $("#text").val();
+               
+                
+                var jqxhr = $.get( "/wrap?m="+message, 
+                function() {
+                    })
+                    .done(function(data) {
+                        try
+                        {
+                            // Set text parametes
+                            var url = JSON.parse(data).url;
+                            $('#url').text(url)
+                            $("#text").val('');
+                            
+                            // Drop effect
+                            $('#form').effect( 'puff', {}, 500, function()
+                            {
+                                var showoptions = {"direction" : "right","mode" : "show"};
+                                $('#response').show('slide', showoptions, 500,function(){
+                                })
+                            } );
+                        }
+                        catch(e)
+                        {
+                            alert ('Unknown error')
+                        }
+                    })
+                    .fail(function(data) {
+                        try
+                        {
+                            var error = JSON.parse(data.responseText).error;
+                            
+                            alert(error)
+                        }
+                        catch(e)
+                        {
+                            alert ('Unknown error')
+                        }
+                    })
+                    .always(function(data) {
+                    });
+            }
+            
+            function digest()
+            {
+                var message = $('#text').val();
+                
+                // If no text in text area
+                if(!message)
+                {
+                    $('#post').attr('disabled','')
+                }
+                else if(message.length == 0)
+                {
+                    $('#post').attr('disabled','')
+                }
+                else
+                {
+                    $('#post').removeAttr('disabled');
+                }
+            }
+            
+            function copyToClipboard()
+            {
+              var data = $('#url').text();
+           window.prompt("Copy to clipboard: Ctrl+C, Enter", data);
+	
+
+            }
+            
+            // Hook ented press to textare
+            function keypress(e, textarea)
+            {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if(code == 13) { //Enter keycode
+                    post();
+                }
+            }
+            
+        </script>
+    </head>
+<body>
+    <div class = "layout">
+        <div class = "header">
+            
+            <h1><p><b>Disposal - Secure Delivery</b><p></h1>
+            <h3><p>One-time-use link to your message</p></h3>
+        </div>
+        
+        <div id="form">
+            <div id = "innerForm">
+                <div id="desc"><p>Place your message</p></div>
+                <div id="message">
+                    <textarea id="text" name="text" rows="7" cols="75" onkeyup="digest()" onKeyPress="keypress(event, this)"></textarea>
+                </div>
+                <div id="button" >            
+                    <button class="button" id="post" onclick="post()" disabled>Post</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id= "response" style="display:none;">
+            <div id="innerResponse">
+                <div id="url"></div>
+                <button id="copy" class="button" onclick="copyToClipboard()"> Copy </button>
+            </div>
+        </div>
+     </div>
+</body>
+</html>

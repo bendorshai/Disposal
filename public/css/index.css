@@ -1,0 +1,52 @@
+.layout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    background-image: url("./../images/background.jpg");
+    background-color:black;
+     background-position: center; 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+div #response {
+    margin: 3% auto 0 auto;
+    text-align: center;
+}
+
+div #innerResponse {
+    background-color: white;
+    opacity: 0.5;
+    display: inline-block; /* Schriks div site to fit its content */
+    border-radius: 5px;
+    padding: 4px;
+}
+
+div #form {
+    margin: 3% auto 3% auto;
+    text-align: center;
+}
+
+div #innerForm {
+    display: inline-block; /* Schriks div site to fit its content */
+}
+
+div #desc {
+    text-align: left;
+    margin: 0% 0% 1% 0%;
+}
+
+div #message {
+    margin: 0% 0% 3% 0%;
+    opacity: 0.5;
+}
+
+#copy
+{
+     margin-top: 2%;
+}

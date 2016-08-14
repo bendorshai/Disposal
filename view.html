@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>
+            Disposal - Secure Delivery
+        </title>
+        
+                <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/view.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+        
+       <!-- <script src="./js/jquery-3.1.0.min.js"></script>-->
+       <script src="./js/jquery.js"></script>
+        <script src="./js/jquery-ui.min.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        
+        <script>
+            function load()
+            {
+                var key = window.location.search.replace("?k=","");
+                
+                var jqxhr = $.get( "/unwrap?k="+key, 
+                function() {
+                    })
+                    .done(function(data) {
+                        try
+                        {
+                            var message = JSON.parse(data).message;
+                            
+                            $('#message').text(message)
+                        }
+                        catch(e)
+                        {
+                             $('#message').text('Unknown error')
+                        }
+                    })
+                    .fail(function(data) {
+                        try
+                        {
+                            var error = JSON.parse(data.responseText).error;
+                            
+                            $('#message').text(error)
+                        }
+                        catch(e)
+                        {
+                            $('#message').text('Unknown error')
+                        }
+                    })
+                    .always(function(data) {
+                    });
+            }
+            
+            function copyToClipboard()
+            {
+              var data = $('#message').text();
+           window.prompt("Copy to clipboard: Ctrl+C, Enter", data);
+	
+
+            }
+            
+            load();
+        </script>
+    </head>
+<body>
+    <div class = "layout">
+        <div class = "header">
+            <h1><p>Disposal - Secure Delivery</p></h1>
+            <h3><p>One-time-use link to your message</p></h3>
+        </div>
+        
+        <div id="response">
+            <div id="innerResponse">
+                <div id="message">
+                </div>
+                <button id="copy" class="button" onclick="copyToClipboard()"> Copy </button>
+             </div>
+        </div>
+    </div>
+</body>
+</html>
